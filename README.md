@@ -2,8 +2,6 @@
 
 # brasil-monitor
 
-**A composite risk index for Brazil, cross-referenced from 13 official institutions — no API keys, no dependencies, no model in the loop.**
-
 [![License: MIT](https://img.shields.io/badge/license-MIT-35e0ff?style=flat-square)](LICENSE)
 [![Node](https://img.shields.io/badge/node-%E2%89%A520-a78bfa?style=flat-square)](package.json)
 [![Dependencies](https://img.shields.io/badge/runtime%20deps-0-5eead4?style=flat-square)](package.json)
