@@ -139,7 +139,7 @@ describe('crossSignals — crisis vocabulary in official headlines', () => {
 
 describe('crossSignals — Congress across both chambers', () => {
   const houseVote = (approved: boolean | null): CongressRadar['votes'][number] =>
-    ({ id: 1, date: '2026-07-01', description: 'x', body: 'PL', approved, url: '' });
+    ({ id: 1, date: '2026-07-01', subject: 'PL 1/2026', description: 'x', body: 'PL', approved, url: 'https://www.camara.leg.br/propostas-legislativas/1' });
   const senateVote = (approved: boolean | null): SenateRadar['votes'][number] =>
     ({ date: '2026-07-01', subject: 'PEC 1', description: 'x', approved, secret: false, url: '' });
   const bill = (kind: string): SenateRadar['bills'][number] =>

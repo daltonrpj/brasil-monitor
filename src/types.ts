@@ -80,8 +80,10 @@ export interface CongressProposal {
 }
 
 export interface CongressVote {
-  id: number;
+  id: number | string;
   date: string | null;
+  /** The bill the vote decided, when it had one. */
+  subject: string;
   description: string;
   body: string;
   approved: boolean | null;
@@ -248,33 +250,6 @@ export interface DengueAlert {
   rt: number | null;
   /** Epidemiological week, e.g. 202629. */
   week: number | null;
-}
-
-export interface TvStream {
-  url: string;
-  quality: string | null;
-  /** iptv-org marks channels that are not on air around the clock. */
-  partTime: boolean;
-}
-
-export interface TvChannel {
-  id: string;
-  name: string;
-  group: 'Jornalismo' | 'Institucional' | 'Esportes' | 'Cultura' | 'Geral';
-  categories: string[];
-  network: string | null;
-  website: string | null;
-  logo: string | null;
-  /** Best quality first — the player walks these as fallbacks. */
-  streams: TvStream[];
-}
-
-export interface TvCatalog {
-  channels: TvChannel[];
-  groups: Array<{ group: string; count: number }>;
-  at: number;
-  /** Every host appearing in the catalog — the proxy's allowlist. */
-  hosts: string[];
 }
 
 /** One deterministic reading from crossing two or more data layers. */

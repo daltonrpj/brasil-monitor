@@ -212,9 +212,9 @@ describe('crossSignals — Congress votes', () => {
     const congress: CongressRadar = {
       proposals: [],
       votes: [
-        { id: 1, date: null, description: '', body: '', approved: true, url: '' },
-        { id: 2, date: null, description: '', body: '', approved: false, url: '' },
-        { id: 3, date: null, description: '', body: '', approved: null, url: '' },
+        { id: 1, date: null, subject: '', description: '', body: '', approved: true, url: '' },
+        { id: 2, date: null, subject: '', description: '', body: '', approved: false, url: '' },
+        { id: 3, date: null, subject: '', description: '', body: '', approved: null, url: '' },
       ],
     };
     const signal = crossSignals({ congress }).find(s => s.title.includes('votações'))!;

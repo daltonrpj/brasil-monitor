@@ -10,8 +10,6 @@ import { readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { BrasilMonitor } from './monitor.js';
-import { fetchBrazilianChannels } from './sensors/iptv.js';
-import { proxyStream } from './stream-proxy.js';
 import type { MarketSnapshot } from './types.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -45,23 +43,6 @@ export function createBrasilMonitorServer(monitor: BrasilMonitor, options: Serve
         const market = options.market ? await options.market() : undefined;
         const snapshot = await monitor.snapshot({ force: url.searchParams.get('force') === '1', market });
         return json(res, 200, snapshot);
-      }
-
-      if (req.method === 'GET' && url.pathname === '/api/tv') {
-        const catalog = await fetchBrazilianChannels({ force: url.searchParams.get('force') === '1' });
-        // `hosts` is only the proxy's allowlist — no reason to ship it to the browser.
-        return json(res, 200, { channels: catalog.channels, groups: catalog.groups, at: catalog.at });
-      }
-
-      if (req.method === 'GET' && url.pathname === '/api/tv/stream') {
-        const target = url.searchParams.get('url');
-        if (!target) return json(res, 400, { error: 'Missing ?url' });
-        // The allowlist is derived from the catalog, so it has to be loaded
-        // before the first segment can be proxied — it will be by then, since
-        // the player only ever gets stream URLs from /api/tv.
-        const catalog = await fetchBrazilianChannels();
-        await proxyStream(target, req, res, { allowedHosts: new Set(catalog.hosts) });
-        return;
       }
 
       json(res, 404, { error: `No route for ${req.method} ${url.pathname}` });

@@ -7,12 +7,25 @@ import type { AgendaItem, CongressProposal, CongressRadar, CongressVote } from '
 
 interface RawProposal { id: number; siglaTipo: string; numero: string; ano: string; ementa?: string }
 interface RawVote {
-  id: number; dataHoraRegistro?: string; data?: string;
-  descricao?: string; proposicaoObjeto?: string; siglaOrgao?: string; aprovacao?: number;
+  id: number | string; dataHoraRegistro?: string; data?: string;
+  descricao?: string; proposicaoObjeto?: string | null; siglaOrgao?: string; aprovacao?: number;
+  uri?: string; uriProposicaoObjeto?: string | null;
 }
 interface RawEvent {
   id: number; dataHoraInicio?: string;
   descricao?: string; descricaoTipo?: string; localCamara?: { nome?: string }; situacao?: string;
+}
+
+/**
+ * A vote's most useful public page is the bill it decided; the Câmara portal
+ * has no stable per-vote page. When the vote has no attached bill — procedural
+ * requirements, most of them — fall back to the open-data record, which is a
+ * real public URL rather than a link to the homepage.
+ */
+function voteUrl(vote: RawVote): string {
+  const billId = vote.uriProposicaoObjeto?.match(/\/(\d+)\/?$/)?.[1];
+  if (billId) return `https://www.camara.leg.br/propostas-legislativas/${billId}`;
+  return vote.uri ?? `https://dadosabertos.camara.leg.br/api/v2/votacoes/${vote.id}`;
 }
 
 export async function fetchCongressRadar(): Promise<CongressRadar> {
@@ -35,10 +48,11 @@ export async function fetchCongressRadar(): Promise<CongressRadar> {
   const votes: CongressVote[] = (votesResponse?.dados ?? []).map(v => ({
     id: v.id,
     date: v.dataHoraRegistro || v.data || null,
+    subject: v.proposicaoObjeto ?? '',
     description: (v.descricao || v.proposicaoObjeto || '').slice(0, 200),
     body: v.siglaOrgao ?? '',
     approved: v.aprovacao === 1 ? true : v.aprovacao === 0 ? false : null,
-    url: 'https://www.camara.leg.br',
+    url: voteUrl(v),
   }));
 
   return { proposals, votes };

@@ -77,7 +77,11 @@ export async function fetchActiveAlerts(): Promise<WeatherAlert[]> {
     risks: alert.riscos ? String(alert.riscos).slice(0, 220) : '',
     start: alert.data_inicio || alert.inicio || null,
     end: alert.data_fim || alert.fim || null,
-    url: alert.id_aviso ? `https://alertas2.inmet.gov.br/${alert.id_aviso}` : 'https://alertas2.inmet.gov.br',
+    // INMET's per-alert host (alertas2.inmet.gov.br) resolves in DNS but
+    // refuses every connection, so a deep link there is a dead link. The
+    // institute's portal is up and carries the same warnings; a working
+    // general link beats a broken specific one.
+    url: 'https://portal.inmet.gov.br/',
   }));
 }
 

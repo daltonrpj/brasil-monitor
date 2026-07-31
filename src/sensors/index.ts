@@ -12,4 +12,3 @@ export { fetchEducation } from './education.js';
 export { fetchOfficialNews, parseRss, tagText, decodeXml } from './news.js';
 export { fetchSenateRadar } from './senate.js';
 export { fetchDengueAlerts, latestWeek, CAPITAL_GEOCODES, DENGUE_LEVELS } from './health.js';
-export { fetchBrazilianChannels, resetTvCache, EMPTY_TV_CATALOG } from './iptv.js';
