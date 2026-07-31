@@ -1,7 +1,7 @@
 {
   "name": "@daltonrpj/brasil-monitor",
   "version": "0.1.0",
-  "description": "A composite risk index for Brazil (0-100) with 17 deterministic cross-signals, computed from 13 official keyless institutions — INMET, Banco Central, IBGE/SIDRA, Tesouro Direto, Câmara, Senado, Fiocruz, NASA, GDACS and USGS. Zero LLM, zero API keys, zero dependencies.",
+  "description": "A composite risk index for Brazil (0-100) with 17 deterministic cross-signals, computed from 13 official keyless institutions — INMET, Banco Central, IBGE/SIDRA, Tesouro Direto, Câmara, Senado, Fiocruz, NASA, GDACS and USGS — plus a live-TV dashboard over the iptv-org open catalog. Zero LLM, zero API keys, zero dependencies.",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -43,7 +43,10 @@
     "tesouro-direto",
     "infodengue",
     "dashboard",
-    "zero-dependencies"
+    "zero-dependencies",
+    "iptv",
+    "hls",
+    "live-tv"
   ],
   "author": "daltonrpj",
   "license": "MIT",

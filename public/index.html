@@ -54,21 +54,29 @@ main{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:22px 26p
 .dot.r{background:var(--err)}
 
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:16px}
-.stat{background:var(--glass);border:1px solid var(--bdr2);border-radius:14px;padding:14px 16px;backdrop-filter:blur(8px)}
-.stat b{display:block;font-family:var(--mono);font-size:24px;font-weight:700;color:var(--cream)}
+.stat{position:relative;background:var(--glass);border:1px solid var(--bdr2);border-radius:14px;padding:14px 16px;
+  backdrop-filter:blur(8px);overflow:hidden;transition:border-color .2s ease,transform .2s ease}
+.stat::after{content:"";position:absolute;inset:0 0 auto;height:1px;background:linear-gradient(90deg,transparent,var(--bdr3),transparent);opacity:.7}
+.stat:hover{border-color:var(--bdr3);transform:translateY(-1px)}
+.stat b{display:block;font-family:var(--mono);font-size:24px;font-weight:700;color:var(--cream);letter-spacing:-.01em}
 .stat .lbl{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--tx2);margin-top:5px;font-family:var(--mono)}
 .stat .sub{font-size:10.5px;color:var(--tx3);margin-top:2px}
 .gaugewrap{display:flex;align-items:center;gap:12px}
 
-.card{background:linear-gradient(180deg,var(--bg2),rgba(14,14,26,.55));border:1px solid var(--bdr);border-radius:16px;padding:16px 18px;margin-bottom:14px}
+.card{background:linear-gradient(180deg,var(--bg2),rgba(14,14,26,.55));border:1px solid var(--bdr);border-radius:16px;padding:16px 18px;margin-bottom:14px;
+  transition:border-color .2s ease}
+.card:hover{border-color:var(--bdr2)}
 .card.accent{border-top:2px solid var(--acc2)}
-.sec-title{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:700;color:var(--cream);margin-bottom:12px}
+.sec-title{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:700;color:var(--cream);margin-bottom:13px;
+  padding-bottom:11px;border-bottom:1px solid var(--bdr)}
 .sec-title .hint{font-size:10.5px;color:var(--tx3);font-weight:400;margin-left:2px}
 .sec-title .sp{flex:1}
 .sec-title .chip{font-family:var(--mono);font-size:10px;background:var(--bg4);border:1px solid var(--bdr2);border-radius:99px;padding:3px 10px;color:var(--tx2)}
 
 .crossgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
-.cross{border-left:3px solid var(--tx3);background:var(--bg2);border-radius:10px;padding:11px 13px}
+.cross{border-left:3px solid var(--tx3);background:var(--bg2);border-radius:10px;padding:11px 13px;
+  transition:background .2s ease}
+.cross:hover{background:var(--bg3)}
 .cross.alto{border-left-color:var(--err)}
 .cross.medio{border-left-color:var(--warn)}
 .cross.info{border-left-color:var(--acc3)}
@@ -103,7 +111,8 @@ main{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:22px 26p
 .componentrow b{font-family:var(--mono);color:var(--cream)}
 
 .capgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
-.cap{background:var(--bg2);border:1px solid var(--bdr);border-radius:12px;padding:12px}
+.cap{background:var(--bg2);border:1px solid var(--bdr);border-radius:12px;padding:12px;transition:border-color .2s ease}
+.cap:hover{border-color:var(--bdr2)}
 .cap .city{font-size:12.5px;font-weight:700;color:var(--cream)}
 .cap .uf{font-size:10px;color:var(--tx3);font-family:var(--mono)}
 .cap .temp{font-size:22px;font-weight:800;margin:5px 0}
@@ -139,6 +148,57 @@ main{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:22px 26p
 .vote .res.u{background:var(--bg4);color:var(--tx3)}
 .vote .sub{color:var(--tx2);flex:1}
 
+.tvwrap{display:grid;grid-template-columns:1.55fr .95fr;gap:14px}
+.tvstage{position:relative;background:#000;border:1px solid var(--bdr2);border-radius:14px;overflow:hidden;aspect-ratio:16/9}
+.tvstage video{width:100%;height:100%;display:block;object-fit:contain;background:#000}
+.tvidle{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:10px;text-align:center;padding:24px;background:radial-gradient(60% 60% at 50% 40%,rgba(53,224,255,.06),transparent 70%)}
+.tvidle .mark{width:54px;height:54px;border-radius:16px;background:var(--gradient);display:grid;place-items:center;font-size:24px;color:#04101a}
+.tvidle p{font-size:12.5px;color:var(--tx3);max-width:280px;line-height:1.6}
+.tvover{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:10px;padding:26px 16px 13px;
+  background:linear-gradient(transparent,rgba(2,5,12,.88));opacity:0;transition:opacity .25s ease;pointer-events:none}
+.tvstage:hover .tvover,.tvstage:focus-within .tvover{opacity:1;pointer-events:auto}
+.tvover .now{flex:1;min-width:0}
+.tvover .now b{display:block;font-size:13px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tvover .now span{font-family:var(--mono);font-size:9.5px;color:rgba(255,255,255,.55)}
+.icobtn{width:32px;height:32px;flex:none;display:grid;place-items:center;border-radius:9px;cursor:pointer;
+  background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.16);color:#fff;font-size:13px;line-height:1}
+.icobtn:hover{background:rgba(255,255,255,.2)}
+.livedot{position:absolute;top:12px;left:12px;display:none;align-items:center;gap:6px;font-family:var(--mono);font-size:9.5px;
+  letter-spacing:.09em;color:#fff;background:rgba(220,38,38,.9);border-radius:99px;padding:4px 10px}
+.livedot.on{display:inline-flex}
+.livedot i{width:6px;height:6px;border-radius:50%;background:#fff;animation:pulse 1.6s infinite}
+
+/* The side column is absolutely positioned inside a zero-height wrapper so the
+   grid row is sized by the player alone. Otherwise the channel list sets the
+   row height and the section grows to several thousand pixels. */
+.tvsidewrap{position:relative;min-height:260px}
+.tvside{position:absolute;inset:0;display:flex;flex-direction:column;gap:9px;min-height:0}
+.tvsearch{display:flex;align-items:center;gap:8px;background:var(--bg4);border:1px solid var(--bdr2);border-radius:10px;padding:0 11px}
+.tvsearch input{flex:1;background:none;border:0;outline:none;color:var(--tx);font-family:inherit;font-size:12px;padding:9px 0}
+.tvsearch input::placeholder{color:var(--tx3)}
+.tvpills{display:flex;gap:6px;flex-wrap:wrap}
+.tvpill{font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;color:var(--tx2);background:var(--bg4);
+  border:1px solid var(--bdr2);border-radius:99px;padding:5px 11px;cursor:pointer;transition:.16s}
+.tvpill:hover{border-color:var(--bdr3);color:var(--tx)}
+.tvpill.on{background:var(--acc);border-color:var(--acc);color:#04101a}
+.tvlist{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:2px;padding-right:4px;
+  -webkit-mask-image:linear-gradient(transparent,#000 10px,#000 calc(100% - 14px),transparent);
+  mask-image:linear-gradient(transparent,#000 10px,#000 calc(100% - 14px),transparent)}
+.tvrow{display:flex;align-items:center;gap:10px;padding:6px 9px;border-radius:9px;cursor:pointer;
+  border:1px solid transparent;transition:background .16s,border-color .16s;text-align:left;background:none;
+  font:inherit;color:inherit;width:100%}
+.tvrow:hover{background:var(--bg2);border-color:var(--bdr2)}
+.tvrow:focus-visible{outline:none;box-shadow:var(--ring);border-color:var(--bdr3)}
+.tvrow.on{background:rgba(53,224,255,.09);border-color:var(--bdr3)}
+.tvrow .logo{width:30px;height:30px;flex:none;border-radius:7px;background:var(--bg4);border:1px solid var(--bdr);
+  object-fit:contain;padding:2px;display:grid;place-items:center;font-family:var(--mono);font-size:9.5px;
+  font-weight:600;color:var(--tx3);letter-spacing:-.02em}
+.tvrow .meta{flex:1;min-width:0}
+.tvrow .meta b{display:block;font-size:12px;font-weight:600;color:var(--cream);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tvrow .meta span{font-family:var(--mono);font-size:9px;color:var(--tx3)}
+.tvrow .q{font-family:var(--mono);font-size:8.5px;color:var(--acc3);border:1px solid var(--bdr2);border-radius:99px;padding:2px 7px;flex:none}
+.tvempty{color:var(--tx3);font-size:11.5px;padding:14px 4px;text-align:center}
+
 .denguegrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px}
 .dg{background:var(--bg2);border:1px solid var(--bdr);border-radius:11px;padding:10px 12px;border-left-width:3px;border-left-style:solid}
 .dg .city{font-size:12px;font-weight:700;color:var(--cream)}
@@ -149,7 +209,7 @@ main{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:22px 26p
 .skel::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(129,140,248,.09),transparent);animation:shimmer 1.4s infinite}
 @keyframes shimmer{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
 .err{color:var(--err);font-size:12px;padding:10px}
-@media(max-width:1000px){.layout3,.layout2,.newsgrid{grid-template-columns:1fr}}
+@media(max-width:1000px){.layout3,.layout2,.newsgrid,.tvwrap{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -207,6 +267,30 @@ main{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:22px 26p
     <div class="card">
       <div class="sec-title">🎓 Escolaridade por região <span class="hint">— anos de estudo médios, 15+ (PNAD Contínua)</span><span class="sp"></span><span class="chip" id="eduYear">—</span></div>
       <div id="eduList"><div class="skel" style="height:150px"></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-title">📺 TV ao vivo <span class="hint">— canais brasileiros abertos do catálogo iptv-org, tocados por HLS</span><span class="sp"></span><span class="chip" id="tvCount">—</span></div>
+    <div class="tvwrap">
+      <div class="tvstage" id="tvStage">
+        <video id="tvVideo" playsinline muted></video>
+        <span class="livedot" id="tvLive"><i></i> AO VIVO</span>
+        <div class="tvidle" id="tvIdle">
+          <div class="mark">▶</div>
+          <p id="tvIdleText">Escolha um canal na lista ao lado para começar.</p>
+        </div>
+        <div class="tvover">
+          <div class="now"><b id="tvNowName">—</b><span id="tvNowMeta"></span></div>
+          <button class="icobtn" id="tvMute" aria-label="Ativar ou silenciar o som">🔇</button>
+          <button class="icobtn" id="tvFull" aria-label="Tela cheia">⛶</button>
+        </div>
+      </div>
+      <div class="tvsidewrap"><div class="tvside">
+        <div class="tvsearch"><span style="color:var(--tx3);font-size:12px">⌕</span><input id="tvSearch" type="search" placeholder="Buscar canal…" autocomplete="off"></div>
+        <div class="tvpills" id="tvPills"></div>
+        <div class="tvlist" id="tvList"><div class="skel" style="height:300px"></div></div>
+      </div></div>
     </div>
   </div>
 
@@ -499,8 +583,171 @@ async function load(force){
   }
 }
 
+// ---------------------------------------------------------------------------
+// TV ao vivo — iptv-org, canais brasileiros
+//
+// Every stream is played through /api/tv/stream: almost none of these CDNs
+// send an Access-Control-Allow-Origin header, so hls.js cannot read the
+// manifest directly from the browser. Channels list several streams; a fatal
+// error advances to the next one before giving up.
+// ---------------------------------------------------------------------------
+var TV = { all: [], filtered: [], group: '', query: '', current: null, srcIndex: 0, hls: null };
+
+function tvProxy(url){ return '/api/tv/stream?url=' + encodeURIComponent(url); }
+
+function tvInitials(name){
+  var words = String(name).replace(/[^\p{L}\p{N} ]/gu, ' ').split(/\s+/).filter(Boolean);
+  if(!words.length) return '?';
+  if(words.length === 1) return words[0].slice(0, 2).toUpperCase();
+  return (words[0][0] + words[1][0]).toUpperCase();
+}
+function tvLogoFallback(img){
+  var span = document.createElement('span');
+  span.className = 'logo';
+  span.textContent = img.dataset.ini || '?';
+  img.replaceWith(span);
+}
+
+function loadScriptOnce(src){
+  return new Promise(function(res, rej){
+    var s = document.createElement('script'); s.src = src;
+    s.onload = res; s.onerror = function(){ rej(new Error('falhou ao carregar ' + src)); };
+    document.head.appendChild(s);
+  });
+}
+
+function tvFilter(){
+  var query = TV.query.trim().toLowerCase();
+  TV.filtered = TV.all.filter(function(c){
+    if(TV.group && c.group !== TV.group) return false;
+    if(!query) return true;
+    return c.name.toLowerCase().indexOf(query) >= 0 || (c.categories || []).join(' ').indexOf(query) >= 0;
+  });
+  tvRenderList();
+}
+
+function tvRenderList(){
+  var list = $('tvList');
+  if(!TV.filtered.length){ list.innerHTML = '<div class="tvempty">Nenhum canal corresponde à busca.</div>'; return; }
+  list.innerHTML = TV.filtered.slice(0, 120).map(function(c, i){
+    var quality = (c.streams[0] && c.streams[0].quality) || '';
+    return '<button class="tvrow' + (TV.current && TV.current.id === c.id ? ' on' : '') + '" data-i="' + i + '">' +
+      // A missing or broken logo falls back to initials rather than a hole in
+      // the row — 7 of the 300 channels have no logo, and CDNs drop more.
+      (c.logo ? '<img class="logo" src="' + esc(c.logo) + '" alt="" loading="lazy" data-ini="' + esc(tvInitials(c.name)) + '" onerror="tvLogoFallback(this)">'
+              : '<span class="logo">' + esc(tvInitials(c.name)) + '</span>') +
+      '<span class="meta"><b>' + esc(c.name) + '</b><span>' + esc(c.group) +
+        (c.streams[0] && c.streams[0].partTime ? ' · não é 24h' : '') + '</span></span>' +
+      (quality ? '<span class="q">' + esc(quality) + '</span>' : '') +
+    '</button>';
+  }).join('');
+
+  Array.prototype.forEach.call(list.querySelectorAll('.tvrow'), function(row){
+    row.onclick = function(){ tvPlay(TV.filtered[Number(row.dataset.i)], 0); };
+  });
+}
+
+function tvRenderPills(groups){
+  var all = [{ group: '', count: TV.all.length, label: 'Todos' }].concat(groups.map(function(g){
+    return { group: g.group, count: g.count, label: g.group };
+  }));
+  $('tvPills').innerHTML = all.map(function(g){
+    return '<button class="tvpill' + (TV.group === g.group ? ' on' : '') + '" data-g="' + esc(g.group) + '">' +
+      esc(g.label) + ' ' + g.count + '</button>';
+  }).join('');
+  Array.prototype.forEach.call($('tvPills').querySelectorAll('.tvpill'), function(pill){
+    pill.onclick = function(){ TV.group = pill.dataset.g; tvRenderPills(groups); tvFilter(); };
+  });
+}
+
+function tvDetach(){
+  if(TV.hls){ try{ TV.hls.destroy(); }catch(e){} TV.hls = null; }
+  var video = $('tvVideo');
+  video.removeAttribute('src');
+  try{ video.load(); }catch(e){}
+}
+
+async function tvPlay(channel, srcIndex){
+  if(!channel || !channel.streams.length) return;
+  if(srcIndex >= channel.streams.length){
+    $('tvIdle').style.display = 'grid';
+    $('tvIdleText').textContent = channel.name + ' não respondeu em nenhuma das fontes. O catálogo é comunitário e streams saem do ar — tente outro canal.';
+    $('tvLive').classList.remove('on');
+    return;
+  }
+
+  TV.current = channel; TV.srcIndex = srcIndex;
+  tvRenderList();
+
+  var stream = channel.streams[srcIndex];
+  $('tvNowName').textContent = channel.name;
+  $('tvNowMeta').textContent = [channel.group, stream.quality, 'fonte ' + (srcIndex + 1) + '/' + channel.streams.length].filter(Boolean).join(' · ');
+  $('tvIdle').style.display = 'grid';
+  $('tvIdleText').textContent = 'Conectando a ' + channel.name + '…';
+
+  var video = $('tvVideo');
+  tvDetach();
+
+  function onPlaying(){
+    $('tvIdle').style.display = 'none';
+    $('tvLive').classList.add('on');
+  }
+  video.onplaying = onPlaying;
+
+  try{
+    if(!window.Hls) await loadScriptOnce('https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js');
+  }catch(e){ /* fall through to native playback */ }
+
+  var src = tvProxy(stream.url);
+
+  if(window.Hls && window.Hls.isSupported()){
+    var hls = new window.Hls({ lowLatencyMode: true, enableWorker: true, manifestLoadingMaxRetry: 1 });
+    TV.hls = hls;
+    hls.on(window.Hls.Events.ERROR, function(_e, data){
+      if(!data || !data.fatal) return;
+      // One fatal error means this source is gone; walk to the next one.
+      tvPlay(channel, srcIndex + 1);
+    });
+    hls.loadSource(src);
+    hls.attachMedia(video);
+    hls.on(window.Hls.Events.MANIFEST_PARSED, function(){ video.play().catch(function(){}); });
+  }else{
+    // Safari plays HLS natively; hls.js is not supported there.
+    video.src = src;
+    video.onerror = function(){ tvPlay(channel, srcIndex + 1); };
+    video.play().catch(function(){});
+  }
+}
+
+async function loadTv(){
+  try{
+    var res = await fetch('/api/tv');
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    var data = await res.json();
+    TV.all = data.channels || [];
+    $('tvCount').textContent = TV.all.length + ' canais';
+    tvRenderPills(data.groups || []);
+    tvFilter();
+  }catch(e){
+    $('tvList').innerHTML = '<div class="tvempty">Não foi possível carregar o catálogo: ' + esc(e.message) + '</div>';
+  }
+}
+
+$('tvSearch').oninput = function(){ TV.query = this.value; tvFilter(); };
+$('tvMute').onclick = function(){
+  var video = $('tvVideo');
+  video.muted = !video.muted;
+  this.textContent = video.muted ? '🔇' : '🔊';
+};
+$('tvFull').onclick = function(){
+  var stage = $('tvStage');
+  if(document.fullscreenElement) document.exitFullscreen();
+  else if(stage.requestFullscreen) stage.requestFullscreen();
+};
+
 $('refreshBtn').onclick = function(){ load(true); };
 load(false);
+loadTv();
 </script>
 </body>
 </html>

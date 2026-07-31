@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-35e0ff?style=flat-square)](LICENSE)
 [![Node](https://img.shields.io/badge/node-%E2%89%A520-a78bfa?style=flat-square)](package.json)
 [![Dependencies](https://img.shields.io/badge/runtime%20deps-0-5eead4?style=flat-square)](package.json)
-[![Tests](https://img.shields.io/badge/tests-127%20offline-46ffb0?style=flat-square)](test)
+[![Tests](https://img.shields.io/badge/tests-151%20offline-46ffb0?style=flat-square)](test)
 [![TypeScript](https://img.shields.io/badge/typescript-strict-35e0ff?style=flat-square)](tsconfig.json)
 
 <img src="docs/dashboard.png" alt="Brasil Monitor dashboard" width="100%">
@@ -67,6 +67,20 @@ Zero build step, zero framework — one HTML file served by `node:http`. Leaflet
 
 <img src="docs/dengue.png" alt="Dengue alert level across the 12 capitals" width="100%">
 
+## Live TV
+
+300 Brazilian channels — GloboNews, BandNews, Record News, Jovem Pan News, TV Câmara, Canal Gov, Canal Futura and the rest — from the [iptv-org](https://github.com/iptv-org/iptv) open catalog, filtered to `country: BR`, grouped, searchable, and played as real HLS.
+
+<img src="docs/tv.png" alt="Live TV — Brazilian channels from the iptv-org catalog" width="100%">
+
+Not embeds: the server proxies the stream and `hls.js` plays it in a plain `<video>`. Three things that took some care:
+
+- **The proxy is an allowlist.** It will only contact hosts that appear in the loaded catalog. A proxy that forwards to any URL the caller passes is an SSRF hole — it would cheerfully fetch a cloud metadata endpoint or something on your private network.
+- **Manifests are rewritten, not just forwarded.** Segments, nested variant playlists, encryption keys and init maps all get routed back through the proxy, with relative URIs resolved against the manifest's post-redirect URL.
+- **A dead segment costs one request, not the server.** Segments are piped rather than buffered, the header timeout is cleared once headers arrive so it cannot cut a live body mid-transfer, and the stream's `error` event is handled — an unhandled one takes the whole Node process down.
+
+Channels carry up to four sources; a fatal playback error walks to the next one automatically. The catalog is community-maintained, so some streams are dead at any given moment — that is what the fallback chain is for.
+
 ## The 13 institutions
 
 | Institution | What it provides | Endpoint |
@@ -88,6 +102,7 @@ Zero build step, zero framework — one HTML file served by `node:http`. Leaflet
 | **Open-Meteo** | Weather and air quality, 12 capitals | `open-meteo.com` |
 | **InfoDengue** (Fiocruz/FGV) | Weekly dengue alert level per city | `info.dengue.mat.br` |
 | **BrasilAPI** | Upcoming national holidays | `brasilapi.com.br` |
+| **iptv-org** *(community, not an institution)* | Open catalog of publicly broadcast channels | `iptv-org.github.io/api` |
 
 Every sensor fails independently. A dead INMET endpoint degrades that one section to an empty array; it never crashes the snapshot.
 
@@ -157,8 +172,6 @@ await monitor.snapshot({
 
 Wire in a broker feed, a paid vendor, or whatever you already have — see [`examples/with-market.mjs`](examples/with-market.mjs). Quotes are left out on purpose: every source above is an official institution publishing its own data, and unofficial quote endpoints are a different category of dependency. That line is worth keeping visible rather than blurring.
 
-The same goes for the live TV and webcam grid in the private system this was extracted from: it finds broadcasts by scraping YouTube's search pages, which is not a government open-data endpoint and does not belong behind the same promise.
-
 ## An AI brief on top (optional)
 
 The cross-signals are rules and need no model. If you want a narrated paragraph, pipe a snapshot into your own:
@@ -192,7 +205,7 @@ Pairs with [`@daltonrpj/atlas-agent-os`](https://github.com/daltonrpj/atlas-agen
 ```bash
 npm install
 npm run build
-npm test          # 127 tests, no network required
+npm test          # 151 tests, no network required
 npm start         # or: node dist/cli.js serve
 ```
 
