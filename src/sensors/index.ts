@@ -1,0 +1,14 @@
+export { fetchActiveAlerts, regionalBreakdown } from './weather-alerts.js';
+export { fetchIbgeNews, fetchPopulation } from './ibge.js';
+export { fetchTesouroDireto, parseTesouroCsv } from './tesouro.js';
+export { fetchIndicators, fetchHistory, fetchFocusExpectations } from './bcb.js';
+export { fetchCongressRadar, fetchAgenda } from './congress.js';
+export { fetchTerritoryEvents, fetchEarthquakes, BRAZIL_BBOX } from './territory-events.js';
+export { fetchCapitalsClimate, CAPITALS } from './climate.js';
+export { fetchUpcomingHolidays } from './holidays.js';
+export { sidra, sidraRows, sidraValue } from './sidra.js';
+export { fetchRegionalEconomy, fetchUnemployment } from './economy.js';
+export { fetchEducation } from './education.js';
+export { fetchOfficialNews, parseRss, tagText, decodeXml } from './news.js';
+export { fetchSenateRadar } from './senate.js';
+export { fetchDengueAlerts, latestWeek, CAPITAL_GEOCODES, DENGUE_LEVELS } from './health.js';

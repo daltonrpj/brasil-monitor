@@ -1,0 +1,65 @@
+{
+  "name": "@daltonrpj/brasil-monitor",
+  "version": "0.1.0",
+  "description": "A composite risk index for Brazil (0-100) with 17 deterministic cross-signals, computed from 13 official keyless institutions — INMET, Banco Central, IBGE/SIDRA, Tesouro Direto, Câmara, Senado, Fiocruz, NASA, GDACS and USGS. Zero LLM, zero API keys, zero dependencies.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "brasil-monitor": "./dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "public",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "build:test": "tsc -p tsconfig.test.json",
+    "test": "npm run build:test && node --test \"dist-test/test/**/*.test.js\"",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "clean": "node -e \"const {rmSync}=require('fs');rmSync('dist',{recursive:true,force:true});rmSync('dist-test',{recursive:true,force:true})\"",
+    "prepublishOnly": "npm run clean && npm run build && npm test",
+    "start": "node dist/cli.js serve"
+  },
+  "keywords": [
+    "brasil",
+    "brazil",
+    "risk-index",
+    "open-data",
+    "dados-abertos",
+    "inmet",
+    "ibge",
+    "banco-central",
+    "senado",
+    "camara",
+    "tesouro-direto",
+    "infodengue",
+    "dashboard",
+    "zero-dependencies"
+  ],
+  "author": "daltonrpj",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daltonrpj/brasil-monitor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/daltonrpj/brasil-monitor/issues"
+  },
+  "homepage": "https://github.com/daltonrpj/brasil-monitor#readme",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0"
+  }
+}
